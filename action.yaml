@@ -3,10 +3,6 @@ name: 'Jsonlint'
 description: 'A linter for JSON files.'
 author: 'ixxeL'
 inputs:
-  indent:
-    description: 'number of spaces or specific characters to use for indentation'
-    required: false
-    default: '2'
   extensions:
     description: 'file extensions to process for directory walk.'
     required: false
@@ -36,7 +32,6 @@ runs:
         echo -e "${YELLOW}[ EXECUTING ] > Executing Jsonlint on ${{ inputs.working-dir }}.${BLANK}"
         echo -e "${CYAN}[ INFO ] > Files need to be formatted as following...(nothing displays if no changes are required)${BLANK}"
         jsonlint --extensions=${{ inputs.extensions }} \
-                 --indent=${{ inputs.indent }} \
                  --environment=${{ inputs.environment }} \
                  ${{ inputs.working-dir }} | jq -C
         
@@ -50,10 +45,9 @@ runs:
         then
           echo -e "${YELLOW}[ EXECUTING ] > Executing JSON fixing.${BLANK}"
           jsonlint --in-place \
-                  --extensions=${{ inputs.extensions }} \
-                  --indent=${{ inputs.indent }} \
-                  --environment=${{ inputs.environment }} \
-                  ${{ inputs.working-dir }}
+                   --extensions=${{ inputs.extensions }} \
+                   --environment=${{ inputs.environment }} \
+                   ${{ inputs.working-dir }}
         fi
         if [[ $? = 0 ]]
         then
