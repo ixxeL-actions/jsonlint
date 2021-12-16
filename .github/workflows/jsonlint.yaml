@@ -21,4 +21,4 @@ jobs:
         extensions: '"json,JSON"'
         environment: '""'
         fix: 'true'
-        working-dir: './*'
+        working-dir: './test.json'
