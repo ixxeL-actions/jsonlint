@@ -14,7 +14,7 @@ inputs:
   environment:
     description: 'which specification of JSON Schema the validation file uses.'
     required: false
-    default: ''
+    default: '""'
   fix:
     description: 'will fix your jsonfile inplace.'
     required: false
@@ -30,7 +30,7 @@ runs:
     - id: jsonlint
       run: |
         set +e
-        echo -e "${BLUE}[ STEP - JSjsonON scan ] > JSON scan with Jsonlint.${BLANK}"
+        echo -e "${BLUE}[ STEP - JSON scan ] > JSON scan with Jsonlint.${BLANK}"
         echo -e "${CYAN}[ INFO ] > Jsonlint version.${BLANK}"
         jsonlint --version
         echo -e "${YELLOW}[ EXECUTING ] > Executing Jsonlint on ${{ inputs.working-dir }}.${BLANK}"

@@ -20,6 +20,6 @@ jobs:
       with:
         indent: '2'
         extensions: '"json","JSON"'
-        environment: ''
+        environment: '""'
         fix: 'true'
         working-dir: './*'
