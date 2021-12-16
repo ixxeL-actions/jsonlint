@@ -18,8 +18,7 @@ jobs:
     - name: Jsonlint scan
       uses: ixxeL-actions/jsonlint@main
       with:
-        indent: '2'
-        extensions: '"json","JSON"'
+        extensions: '"json,JSON"'
         environment: '""'
         fix: 'true'
         working-dir: './*'

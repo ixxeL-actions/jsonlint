@@ -6,7 +6,7 @@ inputs:
   extensions:
     description: 'file extensions to process for directory walk.'
     required: false
-    default: '"json","JSON"'
+    default: '"json,JSON"'
   environment:
     description: 'which specification of JSON Schema the validation file uses.'
     required: false
