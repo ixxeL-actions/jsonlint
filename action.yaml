@@ -3,65 +3,65 @@ name: Jsonlint
 description: A linter for JSON files.
 author: ixxeL
 inputs:
-    extensions:
-        description: file extensions to process for directory walk.
-        required: false
-        default: '"json,JSON"'
-    environment:
-        description: which specification of JSON Schema the validation file uses.
-        required: false
-        default: '""'
-    fix:
-        description: will fix your jsonfile inplace.
-        required: false
-        default: 'true'
-    working-dir:
-        description: file to scan
-        required: false
-        default: ./*
+  extensions:
+    description: file extensions to process for directory walk.
+    required: false
+    default: '"json,JSON"'
+  environment:
+    description: which specification of JSON Schema the validation file uses.
+    required: false
+    default: '""'
+  fix:
+    description: will fix your jsonfile inplace.
+    required: false
+    default: 'true'
+  working-dir:
+    description: file to scan
+    required: false
+    default: ./*
 
 runs:
-    using: composite
-    steps:
-        - id: jsonlint
-          run: |
-              set +e
-              echo -e "${BLUE}[ STEP - JSON scan ] > JSON scan with Jsonlint.${BLANK}"
-              echo -e "${CYAN}[ INFO ] > Jsonlint version.${BLANK}"
-              jsonlint --version
-              echo -e "${YELLOW}[ EXECUTING ] > Executing Jsonlint on ${{ inputs.working-dir }}.${BLANK}"
-              echo -e "${CYAN}[ INFO ] > Files need to be formatted as following...(nothing displays if no changes are required)${BLANK}"
-              jsonlint --extensions=${{ inputs.extensions }} \
-                       --environment=${{ inputs.environment }} \
-                       ${{ inputs.working-dir }} | jq -C
+  using: composite
+  steps:
+  - id: jsonlint
+    run: |
+      set +e
+      echo -e "${BLUE}[ STEP - JSON scan ] > JSON scan with Jsonlint.${BLANK}"
+      echo -e "${CYAN}[ INFO ] > Jsonlint version.${BLANK}"
+      jsonlint --version
+      echo -e "${YELLOW}[ EXECUTING ] > Executing Jsonlint on ${{ inputs.working-dir }}.${BLANK}"
+      echo -e "${CYAN}[ INFO ] > Files need to be formatted as following...(nothing displays if no changes are required)${BLANK}"
+      jsonlint --extensions=${{ inputs.extensions }} \
+               --environment=${{ inputs.environment }} \
+               ${{ inputs.working-dir }} | jq -C
 
-              if [[ $? != 0 ]]
-              then
-                echo -e "${RED}[ FAIL ] > Jsonlint scan failed, your JSON file has errors.${BLANK}"
-                exit 1
-              fi
+      if [[ $? != 0 ]]
+      then
+        echo -e "${RED}[ FAIL ] > Jsonlint scan failed, your JSON file has errors.${BLANK}"
+        exit 1
+      fi
 
-              if [[ "${{ inputs.fix }}" = "true" ]]
-              then
-                echo -e "${YELLOW}[ EXECUTING ] > Executing JSON fixing.${BLANK}"
-                jsonlint --in-place \
-                         --extensions=${{ inputs.extensions }} \
-                         --environment=${{ inputs.environment }} \
-                         ${{ inputs.working-dir }}
-              fi
-              if [[ $? = 0 ]]
-              then
-                echo -e "${GREEN}[ SUCCESS ] > Jsonlint scan succeeded.${BLANK}"
-              else
-                echo -e "${RED}[ FAIL ] > Jsonlint scan failed.${BLANK}"
-                exit 1
-              fi
-          shell: bash
-          env:
-              RED: \033[1;31m
-              GREEN: \033[1;32m
-              YELLOW: \033[1;33m
-              BLUE: \033[1;34m
-              PURPLE: \033[1;35m
-              CYAN: \033[1;36m
-              BLANK: \033[0m
+      if [[ "${{ inputs.fix }}" = "true" ]]
+      then
+        echo -e "${YELLOW}[ EXECUTING ] > Executing JSON fixing.${BLANK}"
+        jsonlint --in-place \
+                 --extensions=${{ inputs.extensions }} \
+                 --environment=${{ inputs.environment }} \
+                 ${{ inputs.working-dir }}
+      fi
+      if [[ $? = 0 ]]
+      then
+        echo -e "${GREEN}[ SUCCESS ] > Jsonlint scan succeeded.${BLANK}"
+      else
+        echo -e "${RED}[ FAIL ] > Jsonlint scan failed.${BLANK}"
+        exit 1
+      fi
+    shell: bash
+    env:
+      RED: \033[1;31m
+      GREEN: \033[1;32m
+      YELLOW: \033[1;33m
+      BLUE: \033[1;34m
+      PURPLE: \033[1;35m
+      CYAN: \033[1;36m
+      BLANK: \033[0m
